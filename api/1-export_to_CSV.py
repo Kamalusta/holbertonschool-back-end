@@ -11,7 +11,7 @@ if __name__ == "__main__":
     id = sys.argv[1]
     res1 = requests.get(f'https://jsonplaceholder.typicode.com/users/{id}')
     response1 = json.loads(res1.text)
-    nameusr = response1.get('name')
+    nameusr = response1.get('username')
     res = requests.get(
         f'https://jsonplaceholder.typicode.com/users/{id}/todos')
     response = json.loads(res.text)
