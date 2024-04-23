@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 """doc"""
 
-import urllib.request
 import requests
 import json
 import sys
+import csv
 
 
 id = sys.argv[1]
@@ -13,16 +13,13 @@ response1 = json.loads(res1.text)
 nameusr = response1.get('name')
 res = requests.get(f'https://jsonplaceholder.typicode.com/users/{id}/todos')
 response = json.loads(res.text)
-done = 0
-ndone = 0
-# print(response)
-for res in response:
-    if res.get('completed') == True:
-        done +=1
-    else:
-        ndone +=1
 
-print(f"Employee {nameusr} is done with tasks({done}/{ndone}):")
-for res in response:
-    if res.get('completed') is True:
-        print(f"\t {res.get('title')}")
+data = []
+for todo in response:
+    values = [id, nameusr, todo.get("completed"), todo.get("title")]
+    data.append(values)
+
+filename = f'{id}.csv'
+with open(filename, 'w', newline="") as file:
+    csvwriter = csv.writer(file)
+    csvwriter.writerows(data)
